@@ -15,25 +15,25 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="25dp"
-            android:background="@drawable/heart"/>
+            style="@style/likes"/>
 
         <ImageButton
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="25dp"
-            android:background="@drawable/smartphone"/>
+            style="@style/scroll"/>
 
         <ImageButton
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="25dp"
-            android:background="@drawable/messenger"/>
+            style="@style/messages"/>
 
         <ImageButton
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="25dp"
-            android:background="@drawable/user"/>
+            style="@style/profile"/>
 
     </LinearLayout>
 

@@ -32,7 +32,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_marginStart="20dp"
-            android:background="@drawable/search"/>
+            style="@style/search"/>
 
         <ImageView
             android:layout_width="48dp"

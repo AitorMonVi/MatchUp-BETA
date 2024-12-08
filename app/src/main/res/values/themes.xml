@@ -17,6 +17,7 @@
         <item name="android:textColor">@color/button_text_lht</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
     </style>
 
     <style name="InputBackground">
@@ -25,17 +26,20 @@
         <item name="android:textColor">@color/text_lht</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
     </style>
 
     <style name="TextColor">
         <item name="android:textColor">@color/text_lht</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
     </style>
 
     <style name="TextColorNoTitle">
         <item name="android:textColor">@color/text_lht</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
     </style>
 
     <style name="likes"><item name="android:background">@drawable/heart_lht</item></style>

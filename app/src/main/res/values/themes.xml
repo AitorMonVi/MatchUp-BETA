@@ -43,6 +43,8 @@
     </style>
 
     <style name="likes"><item name="android:background">@drawable/heart_lht</item></style>
+    <style name="heart"><item name="android:src">@drawable/ic_heart_lht</item></style>
+    <style name="cross"><item name="android:src">@drawable/ic_close_lht</item></style>
     <style name="scroll"><item name="android:background">@drawable/smartphone_lht</item></style>
     <style name="messages"><item name="android:background">@drawable/messenger_lht</item></style>
     <style name="profile"><item name="android:background">@drawable/user_lht</item></style>

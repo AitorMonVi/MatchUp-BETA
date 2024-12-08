@@ -24,4 +24,18 @@
     <string name="textOff"></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- RecyclerView scroll -->
+    <string name="description_image_profile">Foto de perfil</string>
+    <string name="title_scroll_cardView">Nombre, edad</string>
+    <string name="status_cardView">Online</string>
+
+    <!-- RecyclerView likes -->
+    <string name="description_cross">Botón de rechazar</string>
+    <string name="description_like_button">Botón de like</string>
+    <string name="nameAge_person">Nombre, edad</string>
+
+    <!-- RecyclerView messages -->
+    <string name="last_message">Último mensaje XD</string>
+    <string name="count_messages">1</string>
 </resources>

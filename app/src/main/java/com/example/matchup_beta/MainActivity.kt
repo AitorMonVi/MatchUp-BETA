@@ -2,7 +2,6 @@ package com.example.matchup_beta
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -13,7 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
-
+    
     private var isChangingTheme = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

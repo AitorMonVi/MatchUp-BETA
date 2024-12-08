@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MatchUp-BETA</string>
+    <string name="new_account">New Account</string>
+    <string name="enter">Enter</string>
+    <string name="premium">Get Premium</string>
+    <string name="name">Name</string>
+
+    <string name="user_hint">User</string>
+    <string name="pssw_hint">Password</string>
+    <string name="mssg_hint">Message</string>
+    <string name="description_hint">Description</string>
+    <string name="preferences_hint">Preferences</string>
+
+    <!-- Text from buttons -->
+    <string name="login">Login</string>
+    <string name="scroll">Scroll</string>
+    <string name="likes">Likes</string>
+    <string name="profile">Profile</string>
+    <string name="messages">Messages</string>
+    <string name="chat">Chat</string>
+
+    <!-- Switch text -->
+    <string name="textOn"></string>
+    <string name="textOff"></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

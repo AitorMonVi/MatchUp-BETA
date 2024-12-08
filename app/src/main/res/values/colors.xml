@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light mode colors -->
+    <color name="app_background_lht">#FFFFEB</color>
+    <color name="button_lht">#FFA86E</color>
+    <color name="input_lht">#FFFFFF</color>
+    <color name="button_text_lht">#F6F6F6</color>
+    <color name="text_lht">#222222</color>
+
+    <!-- Dark mode colors -->
+    <color name="app_background_drk">#363636</color>
+    <color name="button_drk">#222222</color>
+    <color name="input_drk">#222222</color>
+    <color name="button_text_drk">#F6F6F6</color>
+    <color name="text_drk">#F6F6F6</color>
+
+    <!-- Other colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#424242</color>
+    <color name="lavender">#8692F7</color>
+
+</resources>

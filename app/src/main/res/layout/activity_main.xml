@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/AppBackground"
+    tools:context=".MainActivity">
+
+    <!-- Modelo BETA de la app MatchUp -->
+    <!-- Este primer activity main sirve para navegar por el resto de activitys -->
+    <androidx.appcompat.widget.SwitchCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switchMode"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:textOn="@string/textOn"
+        android:textOff="@string/textOff"
+        android:thumb="@drawable/thumb"
+        app:track="@drawable/track"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:columnCount="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="125dp"
+            android:layout_height="50dp"
+            android:text="@string/login"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            style="@style/ButtonBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_scroll"
+            android:layout_width="125dp"
+            android:layout_height="50dp"
+            android:text="@string/scroll"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            style="@style/ButtonBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_likes"
+            android:layout_width="125dp"
+            android:layout_height="50dp"
+            android:text="@string/likes"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            style="@style/ButtonBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_profile"
+            android:layout_width="125dp"
+            android:layout_height="50dp"
+            android:text="@string/profile"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            style="@style/ButtonBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_messages"
+            android:layout_width="125dp"
+            android:layout_height="50dp"
+            android:text="@string/messages"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            style="@style/ButtonBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_chat"
+            android:layout_width="125dp"
+            android:layout_height="50dp"
+            android:text="@string/chat"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            style="@style/ButtonBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

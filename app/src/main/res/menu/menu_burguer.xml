@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:title="@string/profile_burguer"
+            android:id="@+id/perfil"
+            android:icon="@drawable/ic_user_lht"/>
+        <item
+            android:title="@string/chat_burguer"
+            android:id="@+id/chat"
+            android:icon="@drawable/ic_message_lht"/>
+        <item
+            android:title="@string/help"
+            android:id="@+id/ayuda"
+            android:icon="@drawable/ic_help_lht"/>
+        <item
+            android:title="@string/settings"
+            android:id="@+id/ajustes"
+            android:icon="@drawable/ic_settings_lht"/>
+    </group>
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/logout"
+                android:title="@string/logout"
+                android:icon="@drawable/ic_logout_lht"/>
+        </menu>
+    </item>
+</menu>

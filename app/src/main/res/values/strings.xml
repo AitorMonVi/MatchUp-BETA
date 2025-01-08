@@ -38,4 +38,15 @@
     <!-- RecyclerView messages -->
     <string name="last_message">Último mensaje XD</string>
     <string name="count_messages">1</string>
+
+    <!-- Menu hamburguesa -->
+    <string name="settings">Ajustes</string>
+    <string name="help">Ayuda</string>
+    <string name="profile_burguer">Perfil</string>
+    <string name="favourites">Favoritos</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="chat_burguer">Chat</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
 </resources>

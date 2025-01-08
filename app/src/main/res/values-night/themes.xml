@@ -42,14 +42,14 @@
         <item name="android:fontFamily">@font/ubuntu</item>
     </style>
 
-    <style name="likes"><item name="android:background">@drawable/heart_drk</item></style>
+    <style name="likes"><item name="android:background">@drawable/ic_heart_drk</item></style>
     <style name="heart"><item name="android:src">@drawable/ic_heart_drk</item></style>
     <style name="cross"><item name="android:src">@drawable/ic_close_drk</item></style>
-    <style name="scroll"><item name="android:background">@drawable/smartphone_drk</item></style>
-    <style name="messages"><item name="android:background">@drawable/messenger_drk</item></style>
-    <style name="profile"><item name="android:background">@drawable/user_drk</item></style>
-    <style name="search"><item name="android:background">@drawable/search_drk</item></style>
-    <style name="settings"><item name="android:background">@drawable/setting_drk</item></style>
-    <style name="send"><item name="android:background">@drawable/send_drk</item></style>
+    <style name="scroll"><item name="android:background">@drawable/ic_phone_drk</item></style>
+    <style name="messages"><item name="android:background">@drawable/ic_message_drk</item></style>
+    <style name="profile"><item name="android:background">@drawable/ic_user_drk</item></style>
+    <style name="search"><item name="android:background">@drawable/ic_search_drk</item></style>
+    <style name="settings"><item name="android:background">@drawable/ic_settings_drk</item></style>
+    <style name="send"><item name="android:background">@drawable/ic_send_drk</item></style>
 
 </resources>

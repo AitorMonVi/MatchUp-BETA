@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/AppBackground"
-    tools:context=".MessagesActivity">
+    tools:context=".MessagesFragment">
 
     <LinearLayout
         android:id="@+id/menu_top"

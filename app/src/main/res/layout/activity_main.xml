@@ -35,10 +35,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@drawable/menubkg"
+        android:background="@color/app_background_lht"
         app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/lavender"
-        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/unselected_item_lht"
+        app:itemTextColor="@color/unselected_text_lht"
+        app:itemBackground="@drawable/nav_item_background"
+
         app:menu="@menu/menu_burguer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -7,6 +7,10 @@
     <color name="input_lht">#FFFFFF</color>
     <color name="button_text_lht">#F6F6F6</color>
     <color name="text_lht">#222222</color>
+    <color name="unselected_item_lht">#FFA86E</color>
+    <color name="selected_item_lht">#FF883F</color>
+    <color name="unselected_text_lht">@color/grey</color>
+    <color name="selected_text_lht">@color/black</color>
 
     <!-- Dark mode colors -->
     <color name="app_background_drk">#363636</color>

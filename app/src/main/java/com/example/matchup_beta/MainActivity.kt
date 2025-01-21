@@ -1,6 +1,9 @@
 package com.example.matchup_beta
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.MenuItem
 import android.view.Window
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +23,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         // inicialitza el NavigationView
-        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav)
@@ -50,10 +54,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (savedInstanceState == null) {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ProfileFragment()).commit()
                 navigationView.setCheckedItem(R.id.perfil)
+                setSelectedItemColor(R.id.perfil)
             }
         }
     }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        resetItemColors()
+        item.isChecked = true
+        setSelectedItemColor(item.itemId)
         when(item.itemId) {
             R.id.perfil -> replaceFragment(ProfileFragment())
             R.id.chat -> replaceFragment(MessagesFragment())
@@ -63,6 +71,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun setSelectedItemColor(itemId: Int) {
+        // Aquí se cambia el color del ítem seleccionado
+        val item = navigationView.menu.findItem(itemId)
+        item.icon?.setTint(getColor(R.color.selected_item_lht)) // Cambiar icono al color seleccionado
+        item.title?.let { title ->
+            val spannable = SpannableString(title)
+            spannable.setSpan(ForegroundColorSpan(getColor(R.color.selected_text_lht)), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            item.title = spannable
+        }
+    }
+
+    private fun resetItemColors() {
+        // Restaura los colores de todos los ítems a su color no seleccionado
+        for (i in 0 until navigationView.menu.size()) {
+            val item = navigationView.menu.getItem(i)
+            item.icon?.setTint(getColor(R.color.unselected_item_lht)) // Restaurar el color del icono
+            item.title?.let { title ->
+                val spannable = SpannableString(title)
+                spannable.setSpan(ForegroundColorSpan(getColor(R.color.unselected_text_lht)), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                item.title = spannable
+            }
+        }
     }
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

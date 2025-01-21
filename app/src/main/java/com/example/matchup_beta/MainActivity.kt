@@ -1,15 +1,18 @@
 package com.example.matchup_beta
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.MenuItem
+import android.view.View
 import android.view.Window
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -60,6 +63,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         resetItemColors()
+        if(item.itemId == R.id.logout) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            replaceFragment(LoginFragment())
+            return false
+        }
         item.isChecked = true
         setSelectedItemColor(item.itemId)
         when(item.itemId) {
@@ -67,14 +75,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.chat -> replaceFragment(MessagesFragment())
             R.id.ayuda -> replaceFragment(LikesFragment())
             R.id.ajustes -> replaceFragment(SettingsFragment())
-            R.id.logout -> replaceFragment(LoginFragment())
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
     private fun setSelectedItemColor(itemId: Int) {
-        // Aquí se cambia el color del ítem seleccionado
         val item = navigationView.menu.findItem(itemId)
         item.icon?.setTint(getColor(R.color.selected_item_lht)) // Cambiar icono al color seleccionado
         item.title?.let { title ->
@@ -85,7 +91,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun resetItemColors() {
-        // Restaura los colores de todos los ítems a su color no seleccionado
         for (i in 0 until navigationView.menu.size()) {
             val item = navigationView.menu.getItem(i)
             item.icon?.setTint(getColor(R.color.unselected_item_lht)) // Restaurar el color del icono

@@ -12,23 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MatchUpBETA">
         <activity
-            android:name=".MessagesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LikesFragment"
-            android:exported="false" />
-        <activity
-            android:name=".ScrollActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.App.SplashScreen">
+            android:name=".SplashActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -1,6 +1,5 @@
 package com.example.matchup_beta
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -12,8 +11,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -27,21 +24,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+    private lateinit var toolbar : Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         enableEdgeToEdge()
-
-
-        // splash screen
-        installSplashScreen()
         setContentView(R.layout.activity_main)
 
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
 
         // inicialitza toolbar i l'asigna com actionbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         // inicialitza el NavigationView
@@ -55,26 +49,49 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         CoroutineScope(Dispatchers.Main).launch {
             delay(1000)  // retraso de 1 segon
             if (savedInstanceState == null) {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ProfileFragment()).commit()
+                replaceFragment(ScrollFragment(), "")
                 navigationView.setCheckedItem(R.id.perfil)
                 setSelectedItemColor(R.id.perfil)
             }
         }
     }
+    fun hideToolbarAndDrawer() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        toolbar.visibility = View.GONE
+        supportActionBar?.hide()
+    }
+    fun showToolbarAndDrawer() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        toolbar.visibility = View.VISIBLE
+        supportActionBar?.show()
+    }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         resetItemColors()
         if(item.itemId == R.id.logout) {
             drawerLayout.closeDrawer(GravityCompat.START)
-            replaceFragment(LoginFragment())
+            replaceFragment(LoginFragment(), "Login")
+            hideToolbarAndDrawer()
             return false
         }
         item.isChecked = true
         setSelectedItemColor(item.itemId)
         when(item.itemId) {
-            R.id.perfil -> replaceFragment(ProfileFragment())
-            R.id.chat -> replaceFragment(MessagesFragment())
-            R.id.ayuda -> replaceFragment(LikesFragment())
-            R.id.ajustes -> replaceFragment(SettingsFragment())
+            R.id.perfil -> {
+                replaceFragment(ProfileFragment(), "Profile")
+                showToolbarAndDrawer()
+            }
+            R.id.chat -> {
+                replaceFragment(MessagesFragment(), "Messages")
+                showToolbarAndDrawer()
+            }
+            R.id.ayuda -> {
+                replaceFragment(LikesFragment(), "Likes")
+                showToolbarAndDrawer()
+            }
+            R.id.ajustes -> {
+                replaceFragment(SettingsFragment(), "Settings")
+                showToolbarAndDrawer()
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -108,11 +125,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
         }
     }
-    private fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(fragment: Fragment, title: String) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
+        supportActionBar?.title = title
     }
 
 }

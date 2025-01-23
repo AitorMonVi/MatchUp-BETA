@@ -12,7 +12,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="75dp"
-        android:background="@drawable/app_icon"
+        android:background="@drawable/matchup_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -32,6 +32,7 @@
             android:layout_height="48dp"
             android:layout_margin="15dp"
             android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:inputType="text"
             android:hint="@string/user_hint"
             style="@style/InputBackground"/>
@@ -41,11 +42,13 @@
             android:layout_height="48dp"
             android:layout_margin="15dp"
             android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:inputType="text"
             android:hint="@string/pssw_hint"
             style="@style/InputBackground"/>
 
         <Button
+            android:id="@+id/enterButton"
             android:layout_width="150dp"
             android:layout_height="48dp"
             android:layout_margin="15dp"

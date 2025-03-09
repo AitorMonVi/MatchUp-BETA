@@ -29,15 +29,9 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val okHttpClient = UnsafeClient.getUnsafeOkHttpClient()
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://52.45.133.37:443/")
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        val retrofitService = retrofit.create(RetrofitService::class.java)
+        val retrofit = RetrofitService.MatchUPAPI.API()
         recycler= view.findViewById(R.id.recyclerView)
         recycler.layoutManager = LinearLayoutManager(requireContext())
         likeUserAdapter = LikeUserAdapter(mutableListOf(),
@@ -45,7 +39,7 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
                         val like = Like(id_user_giver = 1, id_user_receiver = user.id)
-                        val response = retrofitService.giveLike(like)
+                        val response = retrofit.giveLike(like)
                         if (response.isSuccessful) {
                             Toast.makeText(context, "Like registrado para ${user.name}", Toast.LENGTH_SHORT).show()
                         } else {
@@ -60,7 +54,7 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
                         val like = Like(id_user_giver = user.id, id_user_receiver = 1)
-                        val response = retrofitService.deleteLike(like)
+                        val response = retrofit.deleteLike(like)
                         if(response.isSuccessful) {
                             val newList = likeUserAdapter.currentList.filter { it.id != user.id }
                             likeUserAdapter.updateData(newList)
@@ -78,13 +72,13 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val likesResponse = retrofitService.getLikes(1)
+                val likesResponse = retrofit.getLikes(1)
                 Log.d("LikesFragment", "Likes response code: ${likesResponse.code()}")
                 if(likesResponse.isSuccessful) {
                     val likes = likesResponse.body()?.likes_received ?: emptyList()
                     Log.d("LikesFragment", "Likes received: $likes")
                     val userDeferreds = likes.map { like ->
-                        async { retrofitService.getUser(like.user_giver) }
+                        async { retrofit.getUser(like.user_giver) }
                     }
                     val userResponses = userDeferreds.awaitAll()
                     userResponses.forEachIndexed { index, response ->

@@ -34,20 +34,12 @@ class MessagesFragment: Fragment(R.layout.fragment_messages) {
         }
         recycler.adapter = messageAdapter
 
-        val okHttpClient = UnsafeClient.getUnsafeOkHttpClient()
 
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://52.45.133.37:443/")
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val retrofitService = retrofit.create(RetrofitService::class.java)
+        val retrofit = RetrofitService.MatchUPAPI.API()
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val response = retrofitService.getMessages()
+                val response = retrofit.getMessages()
                 Log.d("MessagesFragment", "Código de respuesta: ${response.code()}")
                 if (response.isSuccessful) {
                     val messages = response.body() ?: emptyList()

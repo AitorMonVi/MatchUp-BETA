@@ -33,22 +33,15 @@ class ScrollFragment : Fragment(R.layout.fragment_scroll) {
         userAdapter = UserAdapter(mutableListOf())
         recycler.adapter = userAdapter
 
-        val okHttpClient = UnsafeClient.getUnsafeOkHttpClient()
 
         // configuració retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://52.45.133.37:443/")
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val retrofitService = retrofit.create(RetrofitService::class.java)
+        val retrofit = RetrofitService.MatchUPAPI.API()
 
 
         // crida a la api
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val response = retrofitService.getUsers()
+                val response = retrofit.getUsers()
                 Log.d("ScrollFragment", "Código de respuesta: ${response.code()}")
                 if (response.isSuccessful) {
                     val users = response.body() ?: emptyList()

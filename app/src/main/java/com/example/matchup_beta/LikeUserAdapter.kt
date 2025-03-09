@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class LikeUserAdapter(
-    private val userList: List<User>,
+    private val userList: MutableList<User>,
     private val onLikeClick: (User) -> Unit,
     private val onDiscardClick: (User) -> Unit
 ) : RecyclerView.Adapter<LikeUserAdapter.LikeUserViewHolder>() {
@@ -36,4 +36,15 @@ class LikeUserAdapter(
         }
     }
     override fun getItemCount(): Int = userList.size
+
+    val currentList: List<User>
+        get() = userList
+
+
+    fun updateData(newUserList: List<User>) {
+        userList.clear()
+        userList.addAll(newUserList)
+        notifyDataSetChanged()
+    }
+
 }

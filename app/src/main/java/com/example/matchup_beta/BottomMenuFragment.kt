@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 
 class BottomMenuFragment : Fragment(R.layout.fragment_bottom_menu) {
     private lateinit var scroll:ImageButton
+    private lateinit var like: ImageButton
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,6 +26,12 @@ class BottomMenuFragment : Fragment(R.layout.fragment_bottom_menu) {
                 mainActivity.showToolbarAndDrawer()
             }
         }
-
+        like = view.findViewById<ImageButton>(R.id.likesButton)
+        like.setOnClickListener {
+            (activity as? MainActivity)?.let{ mainActivity ->
+                mainActivity.replaceFragment(LikesFragment(), "")
+                mainActivity.showToolbarAndDrawer()
+            }
+        }
     }
 }

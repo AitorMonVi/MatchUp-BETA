@@ -1,45 +1,107 @@
 package com.example.matchup_beta
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class LikesFragment : Fragment(R.layout.fragment_likes) {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recycler: RecyclerView
     private lateinit var likeUserAdapter: LikeUserAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        recyclerView = view.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        val okHttpClient = UnsafeClient.getUnsafeOkHttpClient()
 
-        val userList = listOf(
-            User("John", "Online", "image_url_1", 25),
-            User("Alice", "Offline", "image_url_2", 30),
-            User("Bob", "Online", "image_url_3", 28)
-        )
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://52.45.133.37:443/")
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-        likeUserAdapter = LikeUserAdapter(userList,
+        val retrofitService = retrofit.create(RetrofitService::class.java)
+        recycler= view.findViewById(R.id.recyclerView)
+        recycler.layoutManager = LinearLayoutManager(requireContext())
+        likeUserAdapter = LikeUserAdapter(mutableListOf(),
             onLikeClick = { user ->
-                Toast.makeText(context, "Like clicked for: ${user.name}", Toast.LENGTH_SHORT).show()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    try {
+                        val like = Like(id_user_giver = 1, id_user_receiver = user.id)
+                        val response = retrofitService.giveLike(like)
+                        if (response.isSuccessful) {
+                            Toast.makeText(context, "Like registrado para ${user.name}", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Log.d("LikesFragment: ", "Error al dar like: ${response.errorBody()?.string()}")
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(context, "Excepción: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
             },
             onDiscardClick = { user ->
-                Toast.makeText(context, "Discard clicked for: ${user.name}", Toast.LENGTH_SHORT).show()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    try {
+                        val like = Like(id_user_giver = user.id, id_user_receiver = 1)
+                        val response = retrofitService.deleteLike(like)
+                        if(response.isSuccessful) {
+                            val newList = likeUserAdapter.currentList.filter { it.id != user.id }
+                            likeUserAdapter.updateData(newList)
+                            Toast.makeText(context, "Eliminado like para ${user.name}", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Log.d("LikesFragment: ", "Error al eliminar like: ${response.errorBody()?.string()}")
+                        }
+                    } catch (e: Exception) {
+                        Log.d( "LikesFragment: ","Excepción: ${e.message}")
+                    }
+                }
             }
         )
-        recyclerView.adapter = likeUserAdapter
+        recycler.adapter = likeUserAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val likesResponse = retrofitService.getLikes(1)
+                Log.d("LikesFragment", "Likes response code: ${likesResponse.code()}")
+                if(likesResponse.isSuccessful) {
+                    val likes = likesResponse.body()?.likes_received ?: emptyList()
+                    Log.d("LikesFragment", "Likes received: $likes")
+                    val userDeferreds = likes.map { like ->
+                        async { retrofitService.getUser(like.user_giver) }
+                    }
+                    val userResponses = userDeferreds.awaitAll()
+                    userResponses.forEachIndexed { index, response ->
+                        Log.d("LikesFragment", "User response $index code: ${response.code()}")
+                    }
+                    val users = userResponses.mapNotNull { response ->
+                        if (response.isSuccessful) response.body() else null
+                    }
+                    Log.d("LikesFragment", "Users obtained: $users")
+                    likeUserAdapter.updateData(users)
+                } else {
+                    Toast.makeText(context, "Error fetching likes: ${likesResponse.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Exception: ${e.message}", Toast.LENGTH_SHORT).show()
+                Log.e("LikesFragment", "Exception: ${e.message}", e)
+            }
+        }
     }
 }

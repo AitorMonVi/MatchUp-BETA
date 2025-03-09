@@ -1,14 +1,22 @@
 package com.example.matchup_beta
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class ScrollFragment : Fragment(R.layout.fragment_scroll) {
+
+    private lateinit var recycler: RecyclerView
+    private lateinit var userAdapter: UserAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -19,25 +27,42 @@ class ScrollFragment : Fragment(R.layout.fragment_scroll) {
             insets
         }
 
-        // RecyclerView
-        val recycler: RecyclerView = view.findViewById(R.id.recyclerView)
+        // recyclerView
+        recycler = view.findViewById(R.id.recyclerView)
         recycler.layoutManager = LinearLayoutManager(requireContext())
-
-        // llista d'usuaris
-        val userList = mutableListOf(
-            User("John Doe", "Online", "https://es.wikipedia.org/wiki/John_Doe_%28m%C3%BAsico%29", 50),
-            User("Churumbel", "Offline", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.youtube.com%2Fchannel%2FUCx0W3FyVpJrM7N_O07sEIiA&psig=AOvVaw1i_Hy-Hj4TxL6ZgViLckrf&ust=1733772203946000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNiom_TymIoDFQAAAAAdAAAAABAE", 43)
-        )
-
-        // adapter RecyclerView
-        val userAdapter = UserAdapter(userList)
+        userAdapter = UserAdapter(mutableListOf())
         recycler.adapter = userAdapter
 
-        // actualitza llista usuaris
-        val updatedUserList = listOf(
-            User("Carlos", "Online", "url_to_image", 28),
-            User("Marta", "Offline", "url_to_image", 22)
-        )
-        userAdapter.updateData(updatedUserList)
+        val okHttpClient = UnsafeClient.getUnsafeOkHttpClient()
+
+        // configuració retrofit
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://52.45.133.37:443/")
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val retrofitService = retrofit.create(RetrofitService::class.java)
+
+
+        // crida a la api
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val response = retrofitService.getUsers()
+                Log.d("ScrollFragment", "Código de respuesta: ${response.code()}")
+                if (response.isSuccessful) {
+                    val users = response.body() ?: emptyList()
+                    Log.d("ScrollFragment", "Usuarios recibidos: $users")
+                    userAdapter.updateData(users)
+                } else {
+                    Log.e(
+                        "ScrollFragment",
+                        "Error en la respuesta: ${response.errorBody()?.string()}"
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e("ScrollFragment", "Excepción al obtener usuarios: ${e.message}")
+            }
+        }
     }
 }

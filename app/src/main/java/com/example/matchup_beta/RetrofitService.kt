@@ -26,6 +26,12 @@ interface RetrofitService {
     @GET("users/{id}")
     suspend fun getUser(@Path("id") userId: Int): Response<User>
 
+    @POST("users")
+    suspend fun createUser(@Body usuario: UserCreate): Response<Any>
+
+    @POST("login")
+    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
+
     @GET("messages")
     suspend fun getMessages(): Response<List<MessageUser>>
 

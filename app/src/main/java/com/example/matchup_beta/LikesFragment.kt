@@ -29,8 +29,12 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
+        val sharedPref = requireActivity().getSharedPreferences("UserData", 0)
+        val userId = sharedPref.getInt("userId", -1)
+        if (userId == -1) {
+            Toast.makeText(context, "Error: Usuario no autenticado", Toast.LENGTH_SHORT).show()
+            return
+        }
         val retrofit = RetrofitService.MatchUPAPI.API()
         recycler= view.findViewById(R.id.recyclerView)
         recycler.layoutManager = LinearLayoutManager(requireContext())
@@ -38,7 +42,7 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
             onLikeClick = { user ->
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
-                        val like = Like(id_user_giver = 1, id_user_receiver = user.id)
+                        val like = Like(id_user_giver = userId, id_user_receiver = user.id)
                         val response = retrofit.giveLike(like)
                         if (response.isSuccessful) {
                             Toast.makeText(context, "Like registrado para ${user.name}", Toast.LENGTH_SHORT).show()
@@ -53,7 +57,7 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
             onDiscardClick = { user ->
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
-                        val like = Like(id_user_giver = user.id, id_user_receiver = 1)
+                        val like = Like(id_user_giver = user.id, id_user_receiver = userId)
                         val response = retrofit.deleteLike(like)
                         if(response.isSuccessful) {
                             val newList = likeUserAdapter.currentList.filter { it.id != user.id }
@@ -72,7 +76,7 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val likesResponse = retrofit.getLikes(1)
+                val likesResponse = retrofit.getLikes(userId)
                 Log.d("LikesFragment", "Likes response code: ${likesResponse.code()}")
                 if(likesResponse.isSuccessful) {
                     val likes = likesResponse.body()?.likes_received ?: emptyList()

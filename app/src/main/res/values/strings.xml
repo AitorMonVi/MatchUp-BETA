@@ -6,7 +6,7 @@
     <string name="name">Nombre</string>
     <string name="age">Edad</string>
 
-    <string name="user_hint">User</string>
+    <string name="email_hint">Email</string>
     <string name="pssw_hint">Password</string>
     <string name="mssg_hint">Message</string>
     <string name="description_hint">Añade una descripcion aqui …</string>

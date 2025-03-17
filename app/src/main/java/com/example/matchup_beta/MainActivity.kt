@@ -49,11 +49,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         CoroutineScope(Dispatchers.Main).launch {
             delay(1000)  // retraso de 1 segon
             if (savedInstanceState == null) {
-                replaceFragment(ScrollFragment(), "")
+                replaceFragment(LoginFragment(), "")
                 navigationView.setCheckedItem(R.id.perfil)
                 setSelectedItemColor(R.id.perfil)
             }
         }
+    }
+    fun logout() {
+        val sharedPref = getSharedPreferences("UserData", MODE_PRIVATE)
+        sharedPref.edit().remove("userId").remove("accessToken").apply()
+        replaceFragment(LoginFragment(), "Login")
+        hideToolbarAndDrawer()
     }
     fun hideToolbarAndDrawer() {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -71,6 +77,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawerLayout.closeDrawer(GravityCompat.START)
             replaceFragment(LoginFragment(), "Login")
             hideToolbarAndDrawer()
+            logout()
             return false
         }
         item.isChecked = true

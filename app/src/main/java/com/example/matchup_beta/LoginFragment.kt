@@ -1,5 +1,6 @@
 package com.example.matchup_beta
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -50,8 +51,12 @@ class LoginFragment : Fragment() {
                             val jwt = JWT(token)
                             val userId = jwt.getClaim("sub").asInt()
                             if(userId != null) {
-                                val sharedPref = requireActivity().getSharedPreferences("UserData", 0)
-                                sharedPref.edit().putInt("userId", userId).apply()
+                                val sharedPref = requireActivity().getSharedPreferences("UserData", Context.MODE_PRIVATE)
+                                with(sharedPref.edit()) {
+                                    putInt("userId", userId)
+                                    putString("token", token)
+                                    apply()
+                                }
                                 (activity as? MainActivity)?.let { mainActivity ->
                                     mainActivity.replaceFragment(ScrollFragment(), "")
                                     mainActivity.showToolbarAndDrawer()

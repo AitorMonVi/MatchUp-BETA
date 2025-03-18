@@ -1,5 +1,6 @@
 package com.example.matchup_beta
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -45,8 +46,9 @@ class ProfileFragment : Fragment() {
         editProfile = view.findViewById(R.id.edit_profile)
         makeChanges = view.findViewById(R.id.make_changes)
 
-        val sharedPref = requireActivity().getSharedPreferences("UserData", 0)
+        val sharedPref = requireActivity().getSharedPreferences("UserData", Context.MODE_PRIVATE)
         val userId = sharedPref.getInt("userId", -1)
+        val token = sharedPref.getString("token", "") ?: ""
 
         val retrofit = RetrofitService.MatchUPAPI.API()
 
@@ -112,28 +114,30 @@ class ProfileFragment : Fragment() {
                 modifyEditText()
                 return@setOnClickListener
             }
-            // los cambios son correctos seteamos los valores editados como correctos
-            nombre = name
-            edad = age
-            descripcion = status
+
 
             val user = UserUpdate(
-                name = nombre,
-                status = descripcion,
+                name = name,
+                status = status,
                 image = "",
                 age = ageInt
             )
-
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
-                    val response = retrofit.updateUser(user)
+                    val response = retrofit.updateUser("Bearer $token", user)
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "Usuario modificado correctamente", Toast.LENGTH_SHORT).show()
+                        // los cambios son correctos seteamos los valores editados como correctos
+                        nombre = name
+                        edad = age
+                        descripcion = status
                     } else {
-                        Toast.makeText(requireContext(), "Error al modificar usuario: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                        Log.d("ProfileFragment: ","${response.errorBody()?.string()}")
+                        modifyEditText()
                     }
                 } catch (e: Exception) {
-                    Toast.makeText(requireContext(), "Excepción: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Log.d("ProfileFragment:","Excepción: ${e.message}")
+                    modifyEditText()
                 }
             }
         }

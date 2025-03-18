@@ -1,5 +1,6 @@
 package com.example.matchup_beta
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -29,7 +30,7 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val sharedPref = requireActivity().getSharedPreferences("UserData", 0)
+        val sharedPref = requireActivity().getSharedPreferences("UserData", Context.MODE_PRIVATE)
         val userId = sharedPref.getInt("userId", -1)
         if (userId == -1) {
             Toast.makeText(context, "Error: Usuario no autenticado", Toast.LENGTH_SHORT).show()

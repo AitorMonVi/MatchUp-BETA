@@ -17,6 +17,7 @@ import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 import retrofit2.http.HTTP
+import retrofit2.http.PUT
 
 interface RetrofitService {
 
@@ -31,6 +32,9 @@ interface RetrofitService {
 
     @POST("login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
+
+    @PUT("users/update")
+    suspend fun updateUser(@Body user : UserUpdate): Response<Any>
 
     @GET("messages")
     suspend fun getMessages(): Response<List<MessageUser>>

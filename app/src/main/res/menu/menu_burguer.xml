@@ -6,7 +6,7 @@
         <item
             android:title="@string/app_name"
             android:id="@+id/titleApp"
-            android:icon="@drawable/matchup_logo"
+            android:icon="@drawable/matchup_logotipo"
             android:checkable="false"
             android:enabled="false"/>
     </group>

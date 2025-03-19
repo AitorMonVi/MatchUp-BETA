@@ -44,11 +44,14 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation ("androidx.core:core-splashscreen:1.0.1")
+    implementation (libs.retrofit.plugin)
+    implementation (libs.retrofit.gson)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    // retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    // jwt
+    implementation("com.auth0.android:jwtdecode:2.0.2")
+
 
 }

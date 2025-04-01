@@ -19,6 +19,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.core.view.size
+import androidx.core.view.get
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     
@@ -95,6 +97,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 replaceFragment(LikesFragment(), "Likes")
                 showToolbarAndDrawer()
             }
+            R.id.grafico -> {
+                replaceFragment(StatsFragment(), "Gràfic")
+                showToolbarAndDrawer()
+            }
             R.id.ajustes -> {
                 replaceFragment(SettingsFragment(), "Settings")
                 showToolbarAndDrawer()
@@ -115,8 +121,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun resetItemColors() {
-        for (i in 0 until navigationView.menu.size()) {
-            val item = navigationView.menu.getItem(i)
+        for (i in 0 until navigationView.menu.size) {
+            val item = navigationView.menu[i]
             item.icon?.setTint(getColor(R.color.unselected_item_lht)) // Restaurar el color del icono
             item.title?.let { title ->
                 val spannable = SpannableString(title)

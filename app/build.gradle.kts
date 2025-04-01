@@ -46,7 +46,8 @@ dependencies {
     implementation ("androidx.core:core-splashscreen:1.0.1")
     implementation (libs.retrofit.plugin)
     implementation (libs.retrofit.gson)
-
+    implementation("androidx.datastore:datastore-preferences:1.1.4")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

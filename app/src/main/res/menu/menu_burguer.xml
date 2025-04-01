@@ -38,6 +38,10 @@
             android:id="@+id/ajustes"
             android:icon="@drawable/ic_settings_lht" />
         <item
+            android:title="Gràfic"
+            android:id="@+id/grafico"
+            android:icon="@drawable/ic_graphic_lht" />
+        <item
             android:title="@string/logout"
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout_lht" />

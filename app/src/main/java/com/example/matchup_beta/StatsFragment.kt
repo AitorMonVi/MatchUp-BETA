@@ -13,11 +13,15 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.first
+import androidx.fragment.app.activityViewModels
+import com.github.mikephil.charting.formatter.ValueFormatter
 
 class StatsFragment : Fragment() {
 
     private lateinit var barChart: BarChart
     private lateinit var preferencesManager: PreferencesManager
+    private val sharedStatsViewModel: SharedStatsViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +29,7 @@ class StatsFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.fragment_stats, container, false)
         barChart = view.findViewById(R.id.barChart)
+        barChart.setNoDataText("Encara no hi ha accions registrades.")
         preferencesManager = PreferencesManager(requireContext())
 
         return view
@@ -33,30 +38,71 @@ class StatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        updateChart()
+
         lifecycleScope.launch {
-            val added = preferencesManager.itemsAdded.first()
-            val removed = preferencesManager.itemsRemoved.first()
-            setupChart(added, removed)
+            sharedStatsViewModel.refreshChart.collect { shouldRefresh ->
+                if (shouldRefresh) {
+                    updateChart()
+                    sharedStatsViewModel.resetRefreshFlag()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            preferencesManager.incrementFragmentEntries()
         }
     }
 
-    private fun setupChart(added: Int, removed: Int) {
-        val entries = ArrayList<BarEntry>().apply {
-            add(BarEntry(0f, added.toFloat()))
-            add(BarEntry(1f, removed.toFloat()))
+    private fun updateChart() {
+        lifecycleScope.launch {
+            val added = preferencesManager.itemsAdded.first()
+            val removed = preferencesManager.itemsRemoved.first()
+            val totalEntries = preferencesManager.fragmentEntries.first()
+            println("DEBUG: added=$added, removed=$removed, totalEntries=$totalEntries")
+            setupChart(added, removed, totalEntries)
+        }
+    }
+
+
+    private fun setupChart(added: Int, removed: Int, entriesCount: Int) {
+        val entries = listOf(
+            BarEntry(0f, added.toFloat()),
+            BarEntry(1f, removed.toFloat()),
+            BarEntry(2f, entriesCount.toFloat())
+        )
+
+        val labels = listOf("Afegit", "Esborrat", "Entrades")
+        val dataSet = BarDataSet(entries, "Accions de l'usuari")
+
+        dataSet.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return value.toInt().toString()
+            }
         }
 
-        val labels = listOf("Afegit", "Esborrat")
-        val dataSet = BarDataSet(entries, "Actions de l'usuari")
         val data = BarData(dataSet)
 
-        barChart.data = data
-        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-        barChart.xAxis.granularity = 1f
-        barChart.xAxis.setDrawGridLines(false)
-        barChart.axisLeft.setDrawGridLines(false)
-        barChart.axisRight.isEnabled = false
-        barChart.description.isEnabled = false
-        barChart.invalidate()
+        barChart.apply {
+            this.data = data
+            xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+            xAxis.granularity = 1f
+            xAxis.setLabelCount(labels.size)
+            xAxis.setDrawGridLines(false)
+
+            axisLeft.setDrawGridLines(false)
+            axisLeft.granularity = 1f
+            axisLeft.valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return value.toInt().toString()
+                }
+            }
+
+            axisRight.isEnabled = false
+            description.isEnabled = false
+            setFitBars(true)
+            notifyDataSetChanged()
+            invalidate()
+        }
     }
 }

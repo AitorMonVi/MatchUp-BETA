@@ -16,12 +16,13 @@ import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
+    private lateinit var preferencesManager: PreferencesManager
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
-
 
         val emailEditText = view.findViewById<EditText>(R.id.email)
         val passwordEditText = view.findViewById<EditText>(R.id.password)
@@ -79,5 +80,14 @@ class LoginFragment : Fragment() {
             (activity as? MainActivity)?.replaceFragment(RegisterFragment(), "Crear cuenta")
         }
         return view
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        preferencesManager = PreferencesManager(requireContext())
+
+        lifecycleScope.launch {
+            preferencesManager.incrementFragmentEntries()
+        }
     }
 }

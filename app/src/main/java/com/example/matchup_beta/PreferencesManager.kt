@@ -9,9 +9,13 @@ import kotlinx.coroutines.flow.map
 
 private val Context.dataStore by preferencesDataStore(name = "app_preferences")
 
+
+
 object PreferencesKeys {
     val ITEMS_ADDED = intPreferencesKey("items_added")
     val ITEMS_REMOVED = intPreferencesKey("items_removed")
+    val FRAGMENT_ENTRIES = intPreferencesKey("fragment_entries")
+
 }
 
 class PreferencesManager(context: Context) {
@@ -34,6 +38,15 @@ class PreferencesManager(context: Context) {
         dataStore.edit { prefs ->
             val current = prefs[PreferencesKeys.ITEMS_REMOVED] ?: 0
             prefs[PreferencesKeys.ITEMS_REMOVED] = current + 1
+        }
+    }
+    val fragmentEntries: Flow<Int> = dataStore.data
+        .map { prefs -> prefs[PreferencesKeys.FRAGMENT_ENTRIES] ?: 0 }
+
+    suspend fun incrementFragmentEntries() {
+        dataStore.edit { prefs ->
+            val current = prefs[PreferencesKeys.FRAGMENT_ENTRIES] ?: 0
+            prefs[PreferencesKeys.FRAGMENT_ENTRIES] = current + 1
         }
     }
 }

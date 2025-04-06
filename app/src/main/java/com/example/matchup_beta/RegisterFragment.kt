@@ -14,6 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment() {
+    private lateinit var preferencesManager: PreferencesManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,5 +69,14 @@ class RegisterFragment : Fragment() {
         }
 
         return view
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        preferencesManager = PreferencesManager(requireContext())
+
+        lifecycleScope.launch {
+            preferencesManager.incrementFragmentEntries()
+        }
     }
 }

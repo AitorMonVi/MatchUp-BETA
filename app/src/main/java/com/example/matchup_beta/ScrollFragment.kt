@@ -15,6 +15,8 @@ class ScrollFragment : Fragment(R.layout.fragment_scroll) {
 
     private lateinit var recycler: RecyclerView
     private lateinit var userAdapter: UserAdapter
+    private lateinit var preferencesManager: PreferencesManager
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,6 +25,11 @@ class ScrollFragment : Fragment(R.layout.fragment_scroll) {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        preferencesManager = PreferencesManager(requireContext())
+
+        lifecycleScope.launch {
+            preferencesManager.incrementFragmentEntries()
         }
 
         // recyclerView

@@ -50,4 +50,11 @@
     <string name="logout">Cerrar sesión</string>
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
+    
+    <!-- create account form text -->
+    <string name="invalidPasswordFormat">La contraseña debe tener al menos 8 caracteres, incluyendo una mayúscula, una minúscula, un número y un símbolo especial.</string>
+    <string name="invalidEmailFormat">Introduce el correo electrónico en el formato someone@example.com</string>
+    <string name="errorEmptyEmail">La dirección de correo electronico es obligatoria</string>
+    <string name="errorEmptyPassword">Por favor indique una contraseña</string>
+    <string name="errorPasswordMismatch">Las contraseñas no coinciden</string>
 </resources>

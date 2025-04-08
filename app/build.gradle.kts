@@ -48,6 +48,8 @@ dependencies {
     implementation (libs.retrofit.gson)
     implementation("androidx.datastore:datastore-preferences:1.1.4")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation ("androidx.fragment:fragment-ktx:1.5.7")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

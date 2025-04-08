@@ -14,13 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import androidx.fragment.app.activityViewModels
+
 
 class LikesFragment : Fragment(R.layout.fragment_likes) {
 
     private lateinit var recycler: RecyclerView
     private lateinit var likeUserAdapter: LikeUserAdapter
+    private lateinit var preferencesManager: PreferencesManager
+    private val sharedStatsViewModel: SharedStatsViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,6 +31,10 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        preferencesManager = PreferencesManager(requireContext())
+        lifecycleScope.launch {
+            preferencesManager.incrementFragmentEntries()
         }
         val sharedPref = requireActivity().getSharedPreferences("UserData", Context.MODE_PRIVATE)
         val userId = sharedPref.getInt("userId", -1)
@@ -47,6 +53,8 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
                         val response = retrofit.giveLike(like)
                         if (response.isSuccessful) {
                             Toast.makeText(context, "Like registrado para ${user.name}", Toast.LENGTH_SHORT).show()
+                            preferencesManager.incrementItemsAdded()
+                            sharedStatsViewModel.triggerRefresh()
                         } else {
                             Log.d("LikesFragment: ", "Error al dar like: ${response.errorBody()?.string()}")
                         }
@@ -62,6 +70,8 @@ class LikesFragment : Fragment(R.layout.fragment_likes) {
                         val response = retrofit.deleteLike(like)
                         if(response.isSuccessful) {
                             val newList = likeUserAdapter.currentList.filter { it.id != user.id }
+                            preferencesManager.incrementItemsRemoved()
+                            sharedStatsViewModel.triggerRefresh()
                             likeUserAdapter.updateData(newList)
                             Toast.makeText(context, "Eliminado like para ${user.name}", Toast.LENGTH_SHORT).show()
                         } else {

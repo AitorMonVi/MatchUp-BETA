@@ -17,6 +17,7 @@ class MessagesFragment: Fragment(R.layout.fragment_messages) {
 
     private lateinit var messageAdapter: MessagesAdapter
     private lateinit var recycler: RecyclerView
+    private lateinit var preferencesManager: PreferencesManager
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,6 +26,10 @@ class MessagesFragment: Fragment(R.layout.fragment_messages) {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        preferencesManager = PreferencesManager(requireContext())
+        lifecycleScope.launch {
+            preferencesManager.incrementFragmentEntries()
         }
 
         recycler = view.findViewById(R.id.recyclerView)

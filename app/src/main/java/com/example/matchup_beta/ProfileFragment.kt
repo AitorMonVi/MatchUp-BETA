@@ -32,6 +32,7 @@ class ProfileFragment : Fragment() {
     private lateinit var nombre : String
     private lateinit var edad : String
     private lateinit var descripcion : String
+    private lateinit var preferencesManager: PreferencesManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -163,5 +164,14 @@ class ProfileFragment : Fragment() {
         nameText.setText(nombre)
         ageText.setText(edad)
         descriptionText.setText(descripcion)
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        preferencesManager = PreferencesManager(requireContext())
+
+        lifecycleScope.launch {
+            preferencesManager.incrementFragmentEntries()
+        }
     }
 }

@@ -8,15 +8,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment() {
-
-    private lateinit var viewModel: RegisterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,14 +37,6 @@ class RegisterFragment : Fragment() {
 
             if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || contrasena.isEmpty()) {
                 Toast.makeText(requireContext(), "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            if(!viewModel.validatePassword(contrasena)) {
-                Toast.makeText(requireContext(), getString(R.string.invalidPasswordFormat), Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            if(!viewModel.validateEmail(email)) {
-                Toast.makeText(requireContext(), getString(R.string.invalidEmailFormat), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -80,10 +69,4 @@ class RegisterFragment : Fragment() {
 
         return view
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
-    }
-
 }

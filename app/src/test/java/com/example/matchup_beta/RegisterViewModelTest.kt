@@ -41,6 +41,22 @@ class RegisterViewModelTest {
         assertNull(result?.usernameError)
         assertFalse(result?.isValid ?: true)
     }
+    @Test
+    fun `updateUsername con espacios al principio y al final para probar el trim`() {
+        viewModel.updateUsername(" usuario.valido   ")
+        val result = viewModel.formState.value
+        assertNull(result?.usernameError)
+        assertFalse(result?.isValid ?: true)
+    }
+    @Test
+    fun `updateUsername con 8 caracteres exactos es válido`() {
+        viewModel.updateUsername("usuario1")
+        val result = viewModel.formState.value
+        assertNull(result?.usernameError)
+        assertFalse(result?.isValid ?: true)
+    }
+
+
 
     // email tests
     @Test
@@ -64,6 +80,17 @@ class RegisterViewModelTest {
         assertNull(result?.emailError)
         assertFalse(result?.isValid?:true)
     }
+    @Test
+    fun `updateEmail primero inválido luego válido limpia el error`() {
+        viewModel.updateEmail("correo@invalido")
+        var result = viewModel.formState.value
+        assertNotNull(result?.emailError)
+
+        viewModel.updateEmail("correo@email.com")
+        result = viewModel.formState.value
+        assertNull(result?.emailError)
+    }
+
 
     // password tests
     @Test
@@ -100,6 +127,25 @@ class RegisterViewModelTest {
         val result = viewModel.formState.value
         assertNull(result?.passwordError)
         assertFalse(result?.isValid?:true)
+    }
+
+    // confirm password tests
+    @Test
+    fun `confirmPassword diferente muestra error`() {
+        viewModel.updatePassword("Password1!")
+        viewModel.updateConfirmPassword("Password2!")
+
+        val result = viewModel.formState.value
+        assertEquals("Las contraseñas no coinciden", result?.currentPasswordError)
+        assertFalse(result?.isValid ?: true)
+    }
+    @Test
+    fun `confirmPassword igual no muestra error`() {
+        viewModel.updatePassword("Password1!")
+        viewModel.updateConfirmPassword("Password1!")
+        val result = viewModel.formState.value
+        assertNull(result?.currentPasswordError)
+        assertFalse(result?.isValid ?: true)
     }
 
     // mixed tests

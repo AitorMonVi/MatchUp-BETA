@@ -23,30 +23,43 @@ class RegisterFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_register, container, false)
 
         val nameEditText = view.findViewById<EditText>(R.id.editTextName)
-        val lastnameEditText = view.findViewById<EditText>(R.id.editTextLastname)
         val emailEditText = view.findViewById<EditText>(R.id.editTextEmail)
         val passwordEditText = view.findViewById<EditText>(R.id.editTextPassword)
+        val usernameEditText = view.findViewById<EditText>(R.id.editTextUsername)
+        val confirmPasswordEditText = view.findViewById<EditText>(R.id.editTextConfirmPassword)
+
 
         val registerButton = view.findViewById<Button>(R.id.registerButton)
         val alreadyAccountButton = view.findViewById<Button>(R.id.alreadyAccountButton)
 
+
         registerButton.setOnClickListener {
+            val nombreUsuario = usernameEditText.text.toString().trim()
             val nombre = nameEditText.text.toString().trim()
-            val apellido = lastnameEditText.text.toString().trim()
             val email = emailEditText.text.toString().trim()
             val contrasena = passwordEditText.text.toString().trim()
+            val confirmarContrasena = confirmPasswordEditText.text.toString().trim()
 
-            if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || contrasena.isEmpty()) {
+
+            if (nombreUsuario.isEmpty() || nombre.isEmpty() ||
+                email.isEmpty() || contrasena.isEmpty() || confirmarContrasena.isEmpty()) {
                 Toast.makeText(requireContext(), "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            if (contrasena != confirmarContrasena) {
+                Toast.makeText(requireContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
             val usuario = UserCreate(
+                nombreUsuario = nombreUsuario,
                 nombre = nombre,
-                apellido = apellido,
                 email = email,
                 contrasena = contrasena
             )
+
             val retrofit = RetrofitService.MatchUPAPI.API()
 
             viewLifecycleOwner.lifecycleScope.launch {

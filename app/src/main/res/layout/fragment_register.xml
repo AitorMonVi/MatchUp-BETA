@@ -29,7 +29,18 @@
         app:layout_constraintTop_toBottomOf="@id/imageLogo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="-30dp">
+
+        <EditText
+            android:id="@+id/editTextUsername"
+            android:layout_width="225dp"
+            android:layout_height="48dp"
+            android:layout_margin="15dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:inputType="textPersonName"
+            android:hint="Nombre de usuario"
+            style="@style/InputBackground" />
 
         <EditText
             android:id="@+id/editTextName"
@@ -41,18 +52,6 @@
             android:inputType="textPersonName"
             android:hint="Nombre"
             style="@style/InputBackground"/>
-
-        <EditText
-            android:id="@+id/editTextLastname"
-            android:layout_width="225dp"
-            android:layout_height="48dp"
-            android:layout_margin="15dp"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:inputType="textPersonName"
-            android:hint="Apellido"
-            style="@style/InputBackground"/>
-
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="225dp"
@@ -74,6 +73,17 @@
             android:inputType="textPassword"
             android:hint="Contraseña"
             style="@style/InputBackground"/>
+
+        <EditText
+            android:id="@+id/editTextConfirmPassword"
+            android:layout_width="225dp"
+            android:layout_height="48dp"
+            android:layout_margin="15dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:inputType="textPassword"
+            android:hint="Confirmar contraseña"
+            style="@style/InputBackground" />
 
         <Button
             android:id="@+id/registerButton"

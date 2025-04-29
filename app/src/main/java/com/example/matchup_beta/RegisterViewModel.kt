@@ -8,7 +8,8 @@ data class RegisterFormState(
     val isValid: Boolean = false,
     val usernameError: String? = null,
     val emailError: String? = null,
-    val passwordError: String? = null
+    val passwordError: String? = null,
+    val currentPasswordError: String? = null
 )
 
 class RegisterViewModel: ViewModel() {
@@ -19,10 +20,11 @@ class RegisterViewModel: ViewModel() {
     private var currentUsername: String = ""
     private var currentEmail: String = ""
     private var currentPassword: String = ""
+    private var currentConfirmPassword: String = ""
 
 
     fun updateUsername(username: String) {
-        currentUsername = username
+        currentUsername = username.trim()
 
         val usernameError = if (!validateUsername(username)) "Nombre de usuario no válido" else null
         val emailValid = validateEmail(currentEmail)
@@ -65,6 +67,23 @@ class RegisterViewModel: ViewModel() {
             isValid = isFormValid
         )
     }
+
+    fun updateConfirmPassword(confirmPassword: String) {
+        currentConfirmPassword = confirmPassword
+
+        val confirmPasswordError = if (currentPassword != confirmPassword) "Las contraseñas no coinciden" else null
+        val usernameValid = validateUsername(currentUsername)
+        val emailValid = validateEmail(currentEmail)
+        val passwordValid = validatePassword(currentPassword)
+        val isFormValid = confirmPasswordError == null && usernameValid && emailValid && passwordValid
+
+        val currentState = _formState.value ?: RegisterFormState()
+        _formState.value = currentState.copy(
+            currentPasswordError = confirmPasswordError,
+            isValid = isFormValid
+        )
+    }
+
 
 
     fun validatePassword(password: String): Boolean {

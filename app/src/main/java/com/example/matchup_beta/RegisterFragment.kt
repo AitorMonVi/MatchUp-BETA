@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment() {
+
+    private val viewModel: RegisterViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

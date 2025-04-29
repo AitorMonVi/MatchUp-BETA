@@ -51,6 +51,7 @@ dependencies {
     implementation ("androidx.fragment:fragment-ktx:1.5.7")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     testImplementation(libs.junit)
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     // jwt

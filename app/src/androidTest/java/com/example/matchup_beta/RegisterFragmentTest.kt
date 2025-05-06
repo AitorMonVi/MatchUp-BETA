@@ -27,6 +27,33 @@ import org.junit.Assert.*
 class RegisterFragmentTest {
 
     @Test
+    fun testNameIsBlank_showsToast() {
+        launchFragmentInContainer<RegisterFragment>(themeResId = R.style.Theme_MatchUpBETA)
+
+        onView(withId(R.id.editTextUsername)).perform(typeText("usuario123"), closeSoftKeyboard())
+        onView(withId(R.id.editTextName)).perform(clearText())
+        onView(withId(R.id.registerButton)).perform(click())
+
+        onView(withText("Por favor, completa todos los campos"))
+            .inRoot(ToastMatcher())
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun testEmailIsBlank_showsToast() {
+        launchFragmentInContainer<RegisterFragment>(themeResId = R.style.Theme_MatchUpBETA)
+
+        onView(withId(R.id.editTextUsername)).perform(typeText("usuario123"), closeSoftKeyboard())
+        onView(withId(R.id.editTextName)).perform(typeText("Andres"), closeSoftKeyboard())
+        onView(withId(R.id.editTextEmail)).perform(clearText())
+        onView(withId(R.id.registerButton)).perform(click())
+
+        onView(withText("Por favor, completa todos los campos"))
+            .inRoot(ToastMatcher())
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
     fun testPasswordMismatch_showsToast() {
         launchFragmentInContainer<RegisterFragment>(themeResId = R.style.Theme_MatchUpBETA)
 
@@ -50,7 +77,7 @@ class ToastMatcher : TypeSafeMatcher<Root>() {
     }
 
     override fun matchesSafely(root: Root): Boolean {
-        val type = root.windowLayoutParams.get().type
+        val type = root.windowLayoutParams?.get()?.type
         if (type == WindowManager.LayoutParams.TYPE_TOAST) {
             val windowToken = root.decorView.windowToken
             val appToken = root.decorView.applicationWindowToken

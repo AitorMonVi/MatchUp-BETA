@@ -50,7 +50,7 @@
     <string name="logout">Cerrar sesión</string>
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
-    
+
     <!-- create account form text -->
     <string name="errorEmptyEmail">La dirección de correo electronico es obligatoria</string>
     <string name="errorEmptyPassword">Por favor indique una contraseña</string>

@@ -8,10 +8,13 @@
       <SelectionState runConfigName="testNameIsBlank_showsToast()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="testFragmentIsVisible()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
       <SelectionState runConfigName="RegisterFragmentTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testPasswordMismatch_showsToast()">
+      <SelectionState runConfigName="testNameIsBlank_showsError()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

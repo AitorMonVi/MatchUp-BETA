@@ -44,6 +44,22 @@ class RegisterFragmentTest {
     }
 
     @Test
+    fun testUsernameIncorrect_showsError() {
+        launchRegisterFragment()
+
+        onView(withId(R.id.editTextUsername)).perform(typeText("abc123"), closeSoftKeyboard())
+        onView(withId(R.id.editTextName)).perform(typeText("Andres"), closeSoftKeyboard())
+        onView(withId(R.id.editTextEmail)).perform(typeText("andres@example.com"), closeSoftKeyboard())
+        onView(withId(R.id.editTextPassword)).perform(typeText("Password1!"), closeSoftKeyboard())
+        onView(withId(R.id.editTextConfirmPassword)).perform(typeText("Password1!"), closeSoftKeyboard())
+
+        onView(withId(R.id.registerButton)).perform(click())
+
+        onView(withId(R.id.editTextUsername))
+            .check(matches(hasErrorText("Nombre de usuario no válido")))
+    }
+
+    @Test
     fun testEmailIsBlank_showsError() {
         launchRegisterFragment()
 
@@ -56,7 +72,23 @@ class RegisterFragmentTest {
         onView(withId(R.id.registerButton)).perform(click())
 
         onView(withId(R.id.editTextEmail))
-            .check(matches(hasErrorText("Campo requerido")))
+            .check(matches(hasErrorText("Correo electrónico no válido")))
+    }
+
+    @Test
+    fun testEmailIncorrect_showsError() {
+        launchRegisterFragment()
+
+        onView(withId(R.id.editTextUsername)).perform(typeText("usuario123"), closeSoftKeyboard())
+        onView(withId(R.id.editTextName)).perform(typeText("Andres"), closeSoftKeyboard())
+        onView(withId(R.id.editTextEmail)).perform(typeText("correo@invalido"), closeSoftKeyboard())
+        onView(withId(R.id.editTextPassword)).perform(typeText("Password1!"), closeSoftKeyboard())
+        onView(withId(R.id.editTextConfirmPassword)).perform(typeText("Password1!"), closeSoftKeyboard())
+
+        onView(withId(R.id.registerButton)).perform(click())
+
+        onView(withId(R.id.editTextEmail))
+            .check(matches(hasErrorText("Correo electrónico no válido")))
     }
 
     @Test
@@ -73,6 +105,46 @@ class RegisterFragmentTest {
 
         onView(withId(R.id.editTextConfirmPassword))
             .check(matches(hasErrorText("Las contraseñas no coinciden")))
+    }
+
+    @Test
+    fun testPasswordIncorrect_showsError() {
+        launchRegisterFragment()
+
+        onView(withId(R.id.editTextUsername)).perform(typeText("usuario123"), closeSoftKeyboard())
+        onView(withId(R.id.editTextName)).perform(typeText("Andres"), closeSoftKeyboard())
+        onView(withId(R.id.editTextEmail)).perform(typeText("andres@example.com"), closeSoftKeyboard())
+        onView(withId(R.id.editTextPassword)).perform(typeText("Password1"), closeSoftKeyboard())
+        onView(withId(R.id.editTextConfirmPassword)).perform(typeText("Password1"), closeSoftKeyboard())
+
+        onView(withId(R.id.registerButton)).perform(click())
+
+        onView(withId(R.id.editTextPassword))
+            .check(matches(hasErrorText("Contraseña débil")))
+    }
+
+    @Test
+    fun testRegisterValid() {
+        launchRegisterFragment()
+
+        onView(withId(R.id.editTextUsername)).perform(typeText("usuario123"), closeSoftKeyboard())
+        onView(withId(R.id.editTextName)).perform(typeText("Andres"), closeSoftKeyboard())
+        onView(withId(R.id.editTextEmail)).perform(typeText("andres@example.com"), closeSoftKeyboard())
+        onView(withId(R.id.editTextPassword)).perform(typeText("Password1!"), closeSoftKeyboard())
+        onView(withId(R.id.editTextConfirmPassword)).perform(typeText("Password1!"), closeSoftKeyboard())
+
+        onView(withId(R.id.registerButton)).perform(click())
+
+        onView(withId(R.id.editTextUsername))
+            .check(matches(not(hasErrorText("Nombre de usuario no válido"))))
+        onView(withId(R.id.editTextName))
+            .check(matches(not(hasErrorText("Campo requerido"))))
+        onView(withId(R.id.editTextEmail))
+            .check(matches(not(hasErrorText("Correo electrónico no válido"))))
+        onView(withId(R.id.editTextPassword))
+            .check(matches(not(hasErrorText("Contraseña débil"))))
+        onView(withId(R.id.editTextConfirmPassword))
+            .check(matches(not(hasErrorText("Las contraseñas no coinciden"))))
     }
 
     private fun launchRegisterFragment() {

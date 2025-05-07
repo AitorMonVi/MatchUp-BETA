@@ -5,16 +5,19 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testNameIsBlank_showsToast()">
+      <SelectionState runConfigName="testUsernameIncorrect_showsError()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testFragmentIsVisible()">
+      <SelectionState runConfigName="testPasswordIncorrect_showsError()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testRegisterValid()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="RegisterFragmentTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testNameIsBlank_showsError()">
+      <SelectionState runConfigName="testEmailIsBlank_showsError()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
